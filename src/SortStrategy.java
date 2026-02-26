@@ -16,7 +16,7 @@ public interface SortStrategy {
 }
 
 //сортировка по мощности
-static class SortByPower implements SortStrategy {
+class SortByPower implements SortStrategy {
 
     @Override
     public void sort(List<Automobile> automobiles) {
@@ -25,7 +25,7 @@ static class SortByPower implements SortStrategy {
         }
 
         int n = automobiles.size();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n-1; i++) {
             boolean swap = false;
 
             for (int j = 0; j < n-i-1; j++) {
@@ -41,7 +41,7 @@ static class SortByPower implements SortStrategy {
     }
 }
 //сортировка по году
-static class SortByYear implements SortStrategy{
+class SortByYear implements SortStrategy{
 
     @Override
     public void sort(List<Automobile> automobiles) {
@@ -50,7 +50,7 @@ static class SortByYear implements SortStrategy{
         }
 
         int n = automobiles.size();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n-1; i++) {
             boolean swap = false;
 
             for (int j = 0; j < n-i-1; j++) {
@@ -67,7 +67,7 @@ static class SortByYear implements SortStrategy{
 }
 
 //сортировка по комплектации
-static class SortByConfiguration implements SortStrategy{
+class SortByConfiguration implements SortStrategy{
 
     @Override
     public void sort(List<Automobile> automobiles) {
@@ -76,7 +76,7 @@ static class SortByConfiguration implements SortStrategy{
         }
 
         int n = automobiles.size();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n-1; i++) {
             boolean swap = false;
 
             for (int j = 0; j < n-i-1; j++) {
@@ -95,7 +95,7 @@ static class SortByConfiguration implements SortStrategy{
 }
 
 //сортировка по цвету
-static class SortByColor implements SortStrategy{
+class SortByColor implements SortStrategy{
 
     @Override
     public void sort(List<Automobile> automobiles) {
@@ -104,7 +104,7 @@ static class SortByColor implements SortStrategy{
         }
 
         int n = automobiles.size();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n-1; i++) {
             boolean swap = false;
 
             for (int j = 0; j < n-i-1; j++) {
@@ -122,36 +122,42 @@ static class SortByColor implements SortStrategy{
     }
 }
 
-void main(String[] args) {
-    List<Automobile> testList = new ArrayList<>();
+class Test {
+    public static void main(String[] args) {
+        List<Automobile> testList = new ArrayList<>();
 
-    testList.add(new Automobile.Builder().setPower(180).setYear(2019).setConfiguration("Comfort").setColor("Синий").build());
-    testList.add(new Automobile.Builder().setPower(250).setYear(2023).setConfiguration("Prestige").setColor("Чёрный").build());
-    testList.add(new Automobile.Builder().setPower(120).setYear(2012).setConfiguration("Base").setColor("Красный").build());
-    testList.add(new Automobile.Builder().setPower(200).setYear(2021).setConfiguration("Limited").setColor("Белый").build());
-    testList.add(new Automobile.Builder().setPower(180).setYear(2018).setConfiguration("Luxury").setColor("Зелёный").build());
+        testList.add(new Automobile.Builder().setPower(180).setYear(2019).setConfiguration("Comfort").setColor("Синий").build());
+        testList.add(new Automobile.Builder().setPower(250).setYear(2023).setConfiguration("Prestige").setColor("Чёрный").build());
+        testList.add(new Automobile.Builder().setPower(120).setYear(2012).setConfiguration("Base").setColor("Красный").build());
+        testList.add(new Automobile.Builder().setPower(200).setYear(2021).setConfiguration("Limited").setColor("Белый").build());
+        testList.add(new Automobile.Builder().setPower(180).setYear(2018).setConfiguration("Luxury").setColor("Зелёный").build());
 
-    System.out.println("До сортировки:");
-    testList.forEach(System.out::println);
-    System.out.println("____________________");
+        System.out.println("До сортировки:");
+        testList.forEach(System.out::println);
+        System.out.println("____________________");
 
-    System.out.println("\nПосле сортировки по мощности:");
-    new SortByPower().sort(testList);
-    testList.forEach(System.out::println);
-    System.out.println("____________________");
+        List<Automobile> testPower = new ArrayList<>(testList);
+        System.out.println("\nПосле сортировки по мощности:");
+        new SortByPower().sort(testList);
+        testPower.forEach(System.out::println);
+        System.out.println("____________________");
 
-    System.out.println("\nПосле сортировки по году:");
-    new SortByYear().sort(testList);
-    testList.forEach(System.out::println);
-    System.out.println("____________________");
+        List<Automobile> testYear = new ArrayList<>(testList);
+        System.out.println("\nПосле сортировки по году:");
+        new SortByYear().sort(testList);
+        testYear.forEach(System.out::println);
+        System.out.println("____________________");
 
-    System.out.println("\nПосле сортировки по комплектации:");
-    new SortByConfiguration().sort(testList);
-    testList.forEach(System.out::println);
-    System.out.println("____________________");
+        List<Automobile> testConfiguration = new ArrayList<>(testList);
+        System.out.println("\nПосле сортировки по комплектации:");
+        new SortByConfiguration().sort(testList);
+        testConfiguration.forEach(System.out::println);
+        System.out.println("____________________");
 
-    System.out.println("\nПосле сортировки по цвету:");
-    new SortByColor().sort(testList);
-    testList.forEach(System.out::println);
-    System.out.println("____________________");
+        List<Automobile> testColor = new ArrayList<>(testList);
+        System.out.println("\nПосле сортировки по цвету:");
+        new SortByColor().sort(testList);
+        testColor.forEach(System.out::println);
+        System.out.println("____________________");
+    }
 }
