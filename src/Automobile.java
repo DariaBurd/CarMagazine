@@ -22,6 +22,22 @@ public class Automobile {
                 '}';
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
     public static class Builder {
         private Integer power;
         private Integer year;
