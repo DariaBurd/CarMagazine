@@ -1,3 +1,5 @@
+package automobile;
+
 import java.util.Scanner;
 
 public class Main {

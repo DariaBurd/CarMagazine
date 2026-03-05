@@ -1,3 +1,5 @@
+package automobile;
+
 public class Automobile {
 
     private final int power;

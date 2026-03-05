@@ -1,4 +1,4 @@
-//интерфейс стратегии, три стратегии сортировки
+package sort;//интерфейс стратегии, три стратегии сортировки
 //
 // Автомобиль {" +
 //                "мощность=" + power +
@@ -7,6 +7,8 @@
 //                ", цвет='" + color
 
 
+
+import automobile.Automobile;
 
 import java.util.ArrayList;
 import java.util.List;
