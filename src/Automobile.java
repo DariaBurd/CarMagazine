@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Automobile {
 
     private final int power;
@@ -10,6 +12,24 @@ public class Automobile {
         this.year = builder.year;
         this.configuration = builder.configuration;
         this.color = builder.color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Automobile that = (Automobile) o;
+
+        return power == that.power &&
+                year == that.year &&
+                Objects.equals(configuration, that.configuration) &&
+                Objects.equals(color, that.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(power, year, configuration, color);
     }
 
     @Override
