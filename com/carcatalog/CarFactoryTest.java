@@ -1,3 +1,5 @@
+package com.carcatalog;
+import com.carcatalog.Automobile;
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.util.List;

@@ -50,6 +50,43 @@ public class Main {
                     }
                     break;
 
+                case 5:
+                    System.out.print("Сколько автомобилей сгенерировать в кастомную коллекцию? ");
+                    int count = scanner.nextInt();
+                    scanner.nextLine();
+
+                    CarCollection customCars = CarFactory.generateRandomToCustomCollection(count);
+
+                    System.out.println("\nСОЗДАНА КАСТОМНАЯ КОЛЛЕКЦИЯ:");
+                    System.out.println(customCars);
+
+                    // Показываем сортировку через стратегии второго разработчика
+                    System.out.println("\n--- ДЕМОНСТРАЦИЯ СОРТИРОВКИ ---");
+
+                    // Сортировка по мощности
+                    customCars.sortWith(new SortByPower());
+                    System.out.println("После сортировки по мощности:");
+                    customCars.print();
+
+                    // Сортировка по году
+                    customCars.sortWith(new SortByYear());
+                    System.out.println("После сортировки по году:");
+                    customCars.print();
+
+                    // Фильтрация (бонус)
+                    System.out.println("\n--- ФИЛЬТРАЦИЯ (авто с 2020 года) ---");
+                    CarCollection filtered = customCars.filterByYear(2020);
+                    filtered.print();
+
+                    break;
+
+                case 6:  // Загрузка из файла в кастомную коллекцию
+                    System.out.print("Имя файла: ");
+                    String filename = scanner.nextLine();
+                    CarCollection fileCars = CarFactory.loadFromFileToCustomCollection(filename);
+                    System.out.println("Загружено:");
+                    fileCars.print();
+                    break;
                 case 0:
                     System.out.println("Пока!");
                     return;
