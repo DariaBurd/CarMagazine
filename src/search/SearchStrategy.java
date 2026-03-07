@@ -1,6 +1,7 @@
 package search;
 
 import automobile.Automobile;
+
 import java.util.List;
 
 /**
@@ -9,5 +10,6 @@ import java.util.List;
 // Интерфейс Стратегии
 public interface SearchStrategy {
     List<Automobile> search(List<Automobile> automobiles, String query);
+
     String getDescription();
 }

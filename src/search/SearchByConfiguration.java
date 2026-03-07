@@ -22,9 +22,9 @@ public class SearchByConfiguration implements SearchStrategy {
         String searchQuery = query.trim().toLowerCase();
 
         for (Automobile car : automobiles) {
-           if (car.getConfiguration().toLowerCase().contains(searchQuery)) {
-               result.add(car);
-           }
+            if (car.getConfiguration().toLowerCase().contains(searchQuery)) {
+                result.add(car);
+            }
         }
 
         return result;

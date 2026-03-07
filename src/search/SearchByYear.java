@@ -23,14 +23,14 @@ public class SearchByYear implements SearchStrategy {
             int year = Integer.parseInt(query.trim());
 
             for (Automobile car : automobiles) {
-                if (car.getYear() == year && year >= 1886 && year <= 2026) {
+                if (year >= 1886 && year <= 2026 && car.getYear() == year) {
                     result.add(car);
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка: неверный формат диапазона!");
+            System.out.println("Ошибка: неверный формат!");
             System.out.println("Причина: " + e.getMessage());
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         return result;

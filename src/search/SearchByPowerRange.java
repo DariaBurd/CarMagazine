@@ -30,15 +30,15 @@ public class SearchByPowerRange implements SearchStrategy {
                     int min = Integer.parseInt(parts[0]);
                     int max = Integer.parseInt(parts[1]);
 
-                    for (Automobile car: automobiles) {
-                        if (car.getPower() >= min && car.getPower() <= max && max > 0) {
+                    for (Automobile car : automobiles) {
+                        if (max > 0 && car.getPower() >= min && car.getPower() <= max) {
                             result.add(car);
                         }
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Ошибка: неверный формат диапазона!");
                     System.out.println("Причина: " + e.getMessage());
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
             }
         }
@@ -55,7 +55,7 @@ public class SearchByPowerRange implements SearchStrategy {
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: неверный формат!");
                 System.out.println("Причина: " + e.getMessage());
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         // Поиск "<"
@@ -64,14 +64,14 @@ public class SearchByPowerRange implements SearchStrategy {
                 int max = Integer.parseInt(searchQuery.substring(1).trim());
 
                 for (Automobile car : automobiles) {
-                    if (car.getPower() > max && max > 0) {
+                    if (max > 0 && car.getPower() < max) {
                         result.add(car);
                     }
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: неверный формат!");
                 System.out.println("Причина: " + e.getMessage());
-                e.printStackTrace();
+//              e.printStackTrace();
             }
         }
         // Строгий поиск
@@ -80,14 +80,14 @@ public class SearchByPowerRange implements SearchStrategy {
                 int power = Integer.parseInt(searchQuery);
 
                 for (Automobile car : automobiles) {
-                    if (car.getPower() == power && power > 0) {
+                    if (power > 0 && car.getPower() == power) {
                         result.add(car);
                     }
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: неверный формат!");
                 System.out.println("Причина: " + e.getMessage());
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 
