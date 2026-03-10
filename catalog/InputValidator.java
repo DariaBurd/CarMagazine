@@ -1,3 +1,5 @@
+package catalog;
+
 public class InputValidator {
 
     public static boolean isValidPower(String powerStr) {

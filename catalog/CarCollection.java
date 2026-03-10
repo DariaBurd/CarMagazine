@@ -1,5 +1,6 @@
-package com.carcatalog;
+package catalog;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Кастомная коллекция для автомобилей.
