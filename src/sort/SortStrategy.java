@@ -9,9 +9,11 @@ package sort;//интерфейс стратегии, три стратегии 
 
 
 import automobile.Automobile;
+import fileSaver.FileSaver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public interface SortStrategy {
     void sort(List<Automobile> automobiles);
@@ -175,6 +177,7 @@ class AdditionSortByColor implements SortStrategy{
 
 class AutomobileSort {
     private SortStrategy strSort;
+    private final Scanner scanner = new Scanner(System.in);
 
     public AutomobileSort() {
 
@@ -184,21 +187,45 @@ class AutomobileSort {
         this.strSort = strategy;
     }
 
-    public void sort (List<Automobile> auto){
-        if (strSort==null) {
-            throw new IllegalStateException("Ошибка");
+    public List<Automobile> sort(List<Automobile> autos) {
+        if (strSort == null) {
+            throw new IllegalStateException("Стратегия сортировки не установлена!");
         }
-        strSort.sort(auto);
+        if (autos == null) {
+            throw new IllegalArgumentException("Список автомобилей не может быть null!");
+        }
+        if (autos.isEmpty()) {
+            System.out.println("Предупреждение: сортировка пустого списка");
+            return new ArrayList<>();  // Возвращаем пустой список
+        }
+
+        List<Automobile> sortedCopy = new ArrayList<>(autos);
+        strSort.sort(sortedCopy);
+        return sortedCopy;
     }
 
-    public void print (List<Automobile> auto, String title){
-        System.out.println("\n"+title);
-        List<Automobile> autoCopy = new ArrayList<>(auto);
-        sort(autoCopy);
-        autoCopy.forEach(System.out::println);
+    // Сохранение в файл
+    public void save(List<Automobile> autos) {
+        System.out.print("Сохранить отсортированную коллекцию в файл? (да/нет): ");
+        String saving = scanner.nextLine().trim().toLowerCase();
+        if (saving.equals("да") || saving.equals("yes")) {
+            // Получаем простое имя класса стратегии для понятного описания
+            String sortName = strSort.getClass().getSimpleName();
+            FileSaver.saveSortedCars("sort_results.txt", autos, sortName);
+        }
+    }
+
+    public void print(List<Automobile> autos, String title, boolean askToSave) {
+        System.out.println("\n" + title);
+        List<Automobile> sorted = sort(autos);
+        sorted.forEach(System.out::println);
+
+        if (askToSave) {
+            save(sorted);
+        }
+
         System.out.println("_________________");
     }
-
 }
 
 class Test {
@@ -231,19 +258,19 @@ class Test {
         AutomobileSort sorter = new AutomobileSort();
 
         sorter.setStrategy(new SortByPower());
-        sorter.print(testList, "Cортировка по мощности:");
+        sorter.print(testList, "Cортировка по мощности:", false);
 
         sorter.setStrategy(new SortByYear());
-        sorter.print(testList, "Сортировка по году:");
+        sorter.print(testList, "Сортировка по году:", false);
 
         sorter.setStrategy(new SortByConfiguration());
-        sorter.print(testList, "Сортировка по комплектации:");
+        sorter.print(testList, "Сортировка по комплектации:", false);
 
         sorter.setStrategy(new SortByColor());
-        sorter.print(testList, "Сортировка по цвету:");
+        sorter.print(testList, "Сортировка по цвету:", false);
 
         sorter.setStrategy(new AdditionSortByColor());
-        sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах");
+        sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах", false);
 
     }
 }
