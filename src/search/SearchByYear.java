@@ -23,7 +23,7 @@ public class SearchByYear implements SearchStrategy {
             int year = Integer.parseInt(query.trim());
 
             for (Automobile car : automobiles) {
-                if (year >= 1886 && year <= 2026 && car.getYear() == year) {
+                if (car.getYear() == year) {
                     result.add(car);
                 }
             }

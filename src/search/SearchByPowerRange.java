@@ -31,14 +31,12 @@ public class SearchByPowerRange implements SearchStrategy {
                     int max = Integer.parseInt(parts[1]);
 
                     for (Automobile car : automobiles) {
-                        if (max > 0 && car.getPower() >= min && car.getPower() <= max) {
+                        if (car.getPower() >= min && car.getPower() <= max) {
                             result.add(car);
                         }
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Ошибка: неверный формат диапазона!");
-                    System.out.println("Причина: " + e.getMessage());
-//                    e.printStackTrace();
+                    handleException(e, searchQuery);
                 }
             }
         }
@@ -53,9 +51,7 @@ public class SearchByPowerRange implements SearchStrategy {
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: неверный формат!");
-                System.out.println("Причина: " + e.getMessage());
-//                e.printStackTrace();
+                handleException(e, searchQuery);
             }
         }
         // Поиск "<"
@@ -64,14 +60,12 @@ public class SearchByPowerRange implements SearchStrategy {
                 int max = Integer.parseInt(searchQuery.substring(1).trim());
 
                 for (Automobile car : automobiles) {
-                    if (max > 0 && car.getPower() < max) {
+                    if (car.getPower() < max) {
                         result.add(car);
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: неверный формат!");
-                System.out.println("Причина: " + e.getMessage());
-//              e.printStackTrace();
+                handleException(e, searchQuery);
             }
         }
         // Строгий поиск
@@ -80,18 +74,22 @@ public class SearchByPowerRange implements SearchStrategy {
                 int power = Integer.parseInt(searchQuery);
 
                 for (Automobile car : automobiles) {
-                    if (power > 0 && car.getPower() == power) {
+                    if (car.getPower() == power) {
                         result.add(car);
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: неверный формат!");
-                System.out.println("Причина: " + e.getMessage());
-//                e.printStackTrace();
+                handleException(e, searchQuery);
             }
         }
 
         return result;
+    }
+
+    private void handleException(NumberFormatException e, String queryPart) {
+        System.out.println("Ошибка: неверный формат для '" + queryPart + "'");
+        System.out.println("Причина: " + e.getMessage());
+        // e.printStackTrace();
     }
 
     @Override
