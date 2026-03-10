@@ -1,5 +1,5 @@
 package com.carcatalog;
-import com.carcatalog.Automobile;
+import com.catalog.Automobile;
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.util.List;
