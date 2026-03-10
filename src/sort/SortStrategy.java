@@ -124,42 +124,126 @@ class SortByColor implements SortStrategy{
     }
 }
 
+//сортировка по цвету доп чет нечет
+//дополнительно к основным сортировкам реализовать эти же алгоритмы сортировки таким образом,
+// что объекты классов будут сортироваться по какому-либо числовому полю: объекты с четными
+// значениями этого поля должны быть отсортированы в натуральном порядке, а с нечетными
+// оставаться на исходных позициях.
+
+//Чётные годы сортируются по возрастанию, нечётные остаются на местах
+class AdditionSortByColor implements SortStrategy{
+
+    @Override
+    public void sort(List<Automobile> automobiles) {
+        if (automobiles == null || automobiles.size() <= 1) {
+            return;
+        }
+
+        List<Automobile> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+
+        //четные
+        for (int i = 0; i < automobiles.size(); i++) {
+            Automobile auto = automobiles.get(i);
+            if (auto.getYear() % 2 ==0) {
+                a.add(auto);
+                b.add(i);
+            }
+        }
+
+        int n = a.size();
+        for (int i = 0; i < n-1; i++) {
+            boolean swap = false;
+
+            for (int j = 0; j < n-i-1; j++) {
+                if (a.get(j).getYear() > a.get(j+1).getYear()){
+                    Automobile t = a.get(j);
+                    a.set(j, a.get(j+1));
+                    a.set(j+1, t);
+                    swap = true;
+                }
+            }
+            if (!swap) break;
+        }
+
+        for (int i = 0; i < a.size(); i++) {
+            automobiles.set(b.get(i), a.get(i));
+        }
+    }
+}
+
+
+class AutomobileSort {
+    private SortStrategy strSort;
+
+    public AutomobileSort() {
+
+    }
+
+    public void setStrategy(SortStrategy strategy) {
+        this.strSort = strategy;
+    }
+
+    public void sort (List<Automobile> auto){
+        if (strSort==null) {
+            throw new IllegalStateException("Ошибка");
+        }
+        strSort.sort(auto);
+    }
+
+    public void print (List<Automobile> auto, String title){
+        System.out.println("\n"+title);
+        List<Automobile> autoCopy = new ArrayList<>(auto);
+        sort(autoCopy);
+        autoCopy.forEach(System.out::println);
+        System.out.println("_________________");
+    }
+
+}
+
 class Test {
     public static void main(String[] args) {
         List<Automobile> testList = new ArrayList<>();
 
-        testList.add(new Automobile.Builder().setPower(180).setYear(2019).setConfiguration("Comfort").setColor("Синий").build());
-        testList.add(new Automobile.Builder().setPower(250).setYear(2023).setConfiguration("Prestige").setColor("Чёрный").build());
-        testList.add(new Automobile.Builder().setPower(120).setYear(2012).setConfiguration("Base").setColor("Красный").build());
-        testList.add(new Automobile.Builder().setPower(200).setYear(2021).setConfiguration("Limited").setColor("Белый").build());
+        testList.add(new Automobile.Builder().setPower(180).setYear(2001).setConfiguration("Comfort").setColor("Синий").build());
+        testList.add(new Automobile.Builder().setPower(250).setYear(2013).setConfiguration("Prestige").setColor("Чёрный").build());
+        testList.add(new Automobile.Builder().setPower(120).setYear(2016).setConfiguration("Base").setColor("Красный").build());
+        testList.add(new Automobile.Builder().setPower(200).setYear(2018).setConfiguration("Limited").setColor("Белый").build());
         testList.add(new Automobile.Builder().setPower(180).setYear(2018).setConfiguration("Luxury").setColor("Зелёный").build());
+        testList.add(new Automobile.Builder().setPower(150).setYear(2013).setConfiguration("Base").setColor("Серебристый").build());
+        testList.add(new Automobile.Builder().setPower(320).setYear(2025).setConfiguration("Sport").setColor("Красный").build());
+        testList.add(new Automobile.Builder().setPower(190).setYear(2024).setConfiguration("Comfort").setColor("Чёрный").build());
+        testList.add(new Automobile.Builder().setPower(110).setYear(2009).setConfiguration("Classic").setColor("Белый").build());
+        testList.add(new Automobile.Builder().setPower(280).setYear(2018).setConfiguration("Premium").setColor("Синий").build());
+        testList.add(new Automobile.Builder().setPower(200).setYear(2026).setConfiguration("Luxury").setColor("Зелёный").build());
+        testList.add(new Automobile.Builder().setPower(240).setYear(2019).setConfiguration("Elite").setColor("Серый").build());
+        testList.add(new Automobile.Builder().setPower(170).setYear(2016).setConfiguration("Standard").setColor("Жёлтый").build());
+        testList.add(new Automobile.Builder().setPower(300).setYear(2023).setConfiguration("Standard").setColor("Оранжевый").build());
+        testList.add(new Automobile.Builder().setPower(130).setYear(2014).setConfiguration("Premium").setColor("Коричневый").build());
+        testList.add(new Automobile.Builder().setPower(260).setYear(2014).setConfiguration("Sport").setColor("Фиолетовый").build());
+        testList.add(new Automobile.Builder().setPower(210).setYear(2023).setConfiguration("Base").setColor("Металлик").build());
 
-        System.out.println("До сортировки:");
+        System.out.println("Исходный список авто:");
         testList.forEach(System.out::println);
-        System.out.println("____________________");
+        System.out.println("_________________");
 
-        List<Automobile> testPower = new ArrayList<>(testList);
-        System.out.println("\nПосле сортировки по мощности:");
-        new SortByPower().sort(testList);
-        testPower.forEach(System.out::println);
-        System.out.println("____________________");
 
-        List<Automobile> testYear = new ArrayList<>(testList);
-        System.out.println("\nПосле сортировки по году:");
-        new SortByYear().sort(testList);
-        testYear.forEach(System.out::println);
-        System.out.println("____________________");
+        AutomobileSort sorter = new AutomobileSort();
 
-        List<Automobile> testConfiguration = new ArrayList<>(testList);
-        System.out.println("\nПосле сортировки по комплектации:");
-        new SortByConfiguration().sort(testList);
-        testConfiguration.forEach(System.out::println);
-        System.out.println("____________________");
+        sorter.setStrategy(new SortByPower());
+        sorter.print(testList, "Cортировка по мощности:");
 
-        List<Automobile> testColor = new ArrayList<>(testList);
-        System.out.println("\nПосле сортировки по цвету:");
-        new SortByColor().sort(testList);
-        testColor.forEach(System.out::println);
-        System.out.println("____________________");
+        sorter.setStrategy(new SortByYear());
+        sorter.print(testList, "Сортировка по году:");
+
+        sorter.setStrategy(new SortByConfiguration());
+        sorter.print(testList, "Сортировка по комплектации:");
+
+        sorter.setStrategy(new SortByColor());
+        sorter.print(testList, "Сортировка по цвету:");
+
+        sorter.setStrategy(new AdditionSortByColor());
+        sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах");
+
     }
 }
