@@ -50,17 +50,11 @@ public class MenuManager {
             case SOURCE:
                 printer.printSourceMenu();
                 break;
-            case POWER:
-                printer.printPowerMenu();
+            case SEARCH:
+                printer.printSearchMenu();
                 break;
-            case YEAR:
-                printer.printYearMenu();
-                break;
-            case COLOR:
-                printer.printColorMenu();
-                break;
-            case COMPLECTATION:
-                printer.printComplectationMenu();
+            case SORT_MENU:
+                printer.printSortMenu();
                 break;
         }
     }

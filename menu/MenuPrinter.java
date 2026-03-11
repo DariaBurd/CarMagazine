@@ -1,25 +1,35 @@
 package com.carmagazine.menu;
 
+import com.carmagazine.automobile.Automobile;
+import com.carmagazine.catalog.CarCollection;
+import com.carmagazine.catalog.CarStorage;
+import com.carmagazine.fileSaver.FileSaver;
+import com.carmagazine.search.*;
+import com.carmagazine.sort.SortStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import static com.carmagazine.catalog.CarFactory.*;
 import static com.carmagazine.menu.MenuManager.*;
 
 public class MenuPrinter {
-    public MenuPrinter() {
+    private CarCollection carStorage;
+    private Scanner scanner;
 
+    public MenuPrinter() {
+        this.carStorage = CarStorage.getInstance();
+        this.scanner = new Scanner(System.in);
     }
 
     public void printMainMenu() {
         printTableHeader();
         printMenuItem(1, "Исходник", "Выбор способа загрузки авто");
-        printMenuItem(2, "Перепроверка", "Проверить заново sortedCar.txt");
-        printMenuItem(3, "Загрузить лог", "Записать последние события в log.txt");
-        printMenuItem(4, "Поиск", "Найти авто из исходника");
-        printMenuItem(5, "Мощность авто", "Текущий: 111");
-        printMenuItem(6, "Год авто", "Текущий: ");
-        printMenuItem(7, "Цвет авто", "Текущий: ");
-        printMenuItem(8, "Комплектация авто", "Текущий: ");
+        printMenuItem(2, "Поиск", "Найти авто из исходника");
+        printMenuItem(3, "Сортировка", "Сортировка автомобилей");
         printMenuItem(0, "Выход", "Завершить программу");
         printTableFooter();
-        printPrompt("[0/1/2/3/4/5/6/7/8]");
+        printPrompt("[0/1/2/3]");
     }
 
     public void printSourceMenu() {
@@ -32,41 +42,181 @@ public class MenuPrinter {
         printPrompt("[0/1/2/3]");
     }
 
-    public void printPowerMenu() {
-
+    public void printSearchMenu() {
+        printTableHeader();
+        printMenuItem(1, "Цвет", "Поиск по цвету");
+        printMenuItem(2, "Конфигурация", "Поиск по конфигурации");
+        printMenuItem(3, "Мощность", "Поиск по мощности");
+        printMenuItem(4, "Год", "Поиск по году");
+        printMenuItem(0, "Назад", "Вернуться в главное меню");
+        printTableFooter();
+        printPrompt("[0/1/2/3/4]");
     }
 
-    public void printYearMenu() {
-
+    public void printSortMenu() {
+        printTableHeader();
+        printMenuItem(1, "Цвет", "Сортировка по цвету");
+        printMenuItem(2, "Конфигурация", "Сортировка по конфигурации");
+        printMenuItem(3, "Мощность", "Сортировка по мощности");
+        printMenuItem(4, "Год", "Сортировка по году");
+        printMenuItem(0, "Назад", "Вернуться в главное меню");
+        printTableFooter();
+        printPrompt("[0/1/2/3/4]");
     }
 
-    public void printColorMenu() {
+    private boolean executeSearchMenu(String promptMessage, SearchStrategy strategy, String reportTitle, String description) {
+        System.out.print(promptMessage);
+        String query = scanner.nextLine();
 
+        List<Automobile> result = strategy.search(carStorage.asList(), query);
+
+        if (result.isEmpty()) {
+            System.out.println("Автомобили не найдены!!!");
+            return true;
+        }
+
+        System.out.print("Введите путь для сохранения выполненного поиска : ");
+        String filePath = scanner.nextLine();
+
+        if (!FileSaver.isValidFilePath(filePath)) {
+            return false;
+        }
+
+        FileSaver.saveSearchResults(filePath, result, reportTitle, description + query);
+        return true;
     }
 
-    public void printComplectationMenu() {
-
+    public boolean printSearchByColorMenu() {
+        return executeSearchMenu(
+                "Введите цвет для поиска: ",
+                new SearchByColor(),
+                "Поиск по цвету",
+                "Цвет: "
+        );
     }
 
-    public void printFileLoadMenu() {
+    public boolean printSearchByComplectationMenu() {
+        return executeSearchMenu(
+                "Введите комплектацию для поиска: ",
+                new SearchByConfiguration(),
+                "Поиск по комплектации",
+                "Комплектация: "
+        );
+    }
+
+    public boolean printSearchByYearMenu() {
+        return executeSearchMenu(
+                "Введите год для поиска: ",
+                new SearchByYear(),
+                "Поиск по году",
+                "Год: "
+        );
+    }
+
+    public boolean printSearchByPowerMenu() {
+        return executeSearchMenu(
+                "Введите мощность для поиска: ",
+                new SearchByPowerRange(),
+                "Поиск по мощности",
+                "мощность: "
+        );
+    }
+
+
+
+    public boolean printSortByMenu(SortStrategy strategy, String sortType) {
+        List<Automobile> cars = new ArrayList<>(carStorage.asList());
+
+        if (cars.isEmpty()) {
+            System.out.println("Автомобили не найдены!!!");
+            return true;
+        }
+
+        System.out.print("Введите путь для сохранения выполненной сортировки : ");
+        String filePath = scanner.nextLine();
+
+        if (!FileSaver.isValidFilePath(filePath)) {
+            return false;
+        }
+
+        System.out.println("Сортирую...");
+        strategy.sort(cars);
+
+        FileSaver.saveSortedCars(filePath, cars, sortType);
+        return true;
+    }
+
+
+
+    public boolean printFileLoadMenu() {
         System.out.print("Введите путь к файлу .txt: ");
-        //FIXME метод загрузки файла
+        String filePath = scanner.nextLine();
+
+        if (filePath.trim().isEmpty()) {
+            System.out.println("Ошибка: путь к файлу не может быть пустым!");
+            return false;
+        }
+
+        if (!filePath.toLowerCase().endsWith(".txt")) {
+            System.out.println("Ошибка: файл должен быть с расширением .txt!");
+            return false;
+        }
+
+        var loadedCars = loadFromFile(filePath);
+        if (loadedCars.isEmpty()) {
+            System.out.println("Не удалось загрузить автомобили из файла!");
+            return false;
+        }
+
+        carStorage.addAll(loadedCars);
+        System.out.println("Загружено " + loadedCars.size() + " автомобилей!");
+        return true;
     }
 
-    public void printManualMenu() {
-        //FIXME метод ручного ввода
+    public boolean printManualMenu() {
+        System.out.print("Введите количество авто для ручного ввода: ");
+        String countStr = scanner.nextLine();
+
+        try {
+            int count = Integer.parseInt(countStr);
+
+            if (count <= 0) {
+                System.out.println("Ошибка: количество должно быть положительным числом!");
+                return false;
+            }
+
+            var newCars = inputFromUser(scanner, count);
+            carStorage.addAll(newCars);
+            System.out.println("Добавлено " + newCars.size() + " автомобилей!");
+            return true;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка: введите целое число!");
+            return false;
+        }
     }
 
-    public void printGenerateMenu() {
-        //FIXME метод генерации
-    }
+    // Возвращает true при успешной генерации, false при ошибке
+    public boolean printGenerateMenu() {
+        System.out.print("Введите количество авто для генерации: ");
+        String countStr = scanner.nextLine();
 
-    public void printReroll() {
-        //FIXME метод перепроверки
-    }
+        try {
+            int count = Integer.parseInt(countStr);
 
-    public void printLog() {
-        //FIXME метод записи лога потоков
+            if (count <= 0) {
+                System.out.println("Ошибка: количество должно быть положительным числом!");
+                return false;
+            }
+
+            var generatedCars = generateRandom(count);
+            carStorage.addAll(generatedCars);
+            return true;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка: введите целое число!");
+            return false;
+        }
     }
 
     public void printHeader() {
@@ -83,6 +233,8 @@ public class MenuPrinter {
     }
 
     private void printTableHeader() {
+        int cars = carStorage.size();
+        System.out.println(ANSI_PURPLE + "                               Текущее количество авто в программе: " + cars + ANSI_RESET);
         System.out.println("+──────────────┬───────────────────────────────────┬───────────────────────────────────────────────────────────+");
         System.out.println("│      №       │ Действие                          │ Описание                                                  │");
         System.out.println("├──────────────┼───────────────────────────────────┼───────────────────────────────────────────────────────────┤");
