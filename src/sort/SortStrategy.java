@@ -133,7 +133,7 @@ class SortByColor implements SortStrategy{
 // оставаться на исходных позициях.
 
 //Чётные годы сортируются по возрастанию, нечётные остаются на местах
-class AdditionSortByColor implements SortStrategy{
+class AdditionSortByYear implements SortStrategy{
 
     @Override
     public void sort(List<Automobile> automobiles) {
@@ -269,7 +269,7 @@ class Test {
         sorter.setStrategy(new SortByColor());
         sorter.print(testList, "Сортировка по цвету:", false);
 
-        sorter.setStrategy(new AdditionSortByColor());
+        sorter.setStrategy(new AdditionSortByYear());
         sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах", false);
 
     }
