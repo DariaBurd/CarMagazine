@@ -14,6 +14,22 @@ public class Automobile {
         this.color = builder.color;
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
