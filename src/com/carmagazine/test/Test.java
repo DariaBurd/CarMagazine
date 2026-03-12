@@ -8,6 +8,13 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
+
+        List<Automobile> cars = createTestCars();
+        showOriginal(cars);
+        runAll(cars);
+    }
+
+    private static List<Automobile> createTestCars() {
         List<Automobile> testList = new ArrayList<>();
 
         testList.add(new Automobile.Builder().setPower(180).setYear(2001).setConfiguration("Comfort").setColor("Синий").build());
@@ -28,25 +35,28 @@ public class Test {
         testList.add(new Automobile.Builder().setPower(260).setYear(2014).setConfiguration("Sport").setColor("Фиолетовый").build());
         testList.add(new Automobile.Builder().setPower(210).setYear(2023).setConfiguration("Base").setColor("Металлик").build());
 
+        return testList;
+    }
+
+    private static void showOriginal(List<Automobile> cars) {
         System.out.println("Исходный список авто:");
-        testList.forEach(System.out::println);
-        System.out.println("_________________");
+        cars.forEach(System.out::println);
+        System.out.println("__________________");
+    }
 
-
+    private static void runAll(List<Automobile> cars) {
         AutomobileSort sorter = new AutomobileSort();
 
-        sorter.setStrategy(new SortByPower());
-        sorter.print(testList, "Cортировка по мощности:");
+        runSort(sorter, cars, new SortByPower(),       "Сортировка по мощности");
+        runSort(sorter, cars, new SortByYear(),        "Сортировка по году");
+        runSort(sorter, cars, new SortByConfiguration(),"Сортировка по комплектации");
+        runSort(sorter, cars, new SortByColor(),       "Сортировка по цвету");
+        runSort(sorter, cars, new AdditionSortByYear(), "Доп. задание: чётные годы по возрастанию");
+    }
 
-        sorter.setStrategy(new SortByYear());
-        sorter.print(testList, "Сортировка по году:");
-
-        sorter.setStrategy(new SortByConfiguration());
-        sorter.print(testList, "Сортировка по комплектации:");
-
-        sorter.setStrategy(new SortByColor());
-        sorter.print(testList, "Сортировка по цвету:");
-
-        sorter.setStrategy(new AdditionSortByYear());
-        sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах");
-    }}
+    private static void runSort(AutomobileSort sorter, List<Automobile> cars, SortStrategy strategy, String title) {
+        sorter.setStrategy(strategy);
+        sorter.print(cars, title + ":");
+        System.out.println(); // пустая строка между блоками для красоты
+    }
+}
