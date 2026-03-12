@@ -1,3 +1,7 @@
+package com.carmagazine.fileloader;
+
+import com.carmagazine.automobile.Automobile;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

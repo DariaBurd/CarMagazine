@@ -1,3 +1,5 @@
+package com.carmagazine.automobile;
+
 import java.util.Objects;
 
 public class Automobile {

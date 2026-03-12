@@ -1,3 +1,5 @@
+import com.carmagazine.automobile.Automobile;
+
 import java.util.Scanner;
 
 public class Main {
