@@ -1,6 +1,6 @@
-package search;
+package com.carmagazine.search;
 
-import automobile.Automobile;
+import com.carmagazine.automobile.Automobile;
 
 import java.util.List;
 
