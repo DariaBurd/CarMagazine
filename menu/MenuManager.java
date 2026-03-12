@@ -1,5 +1,6 @@
 package com.carmagazine.menu;
 
+import com.carmagazine.thread.ThreadManager;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,6 +18,7 @@ public class MenuManager {
 
     private Scanner scanner;
     private ExecutorService executorService;
+    private ThreadManager threadManager;
     private MenuPrinter printer;
     private MenuHandler handler;
     private boolean isRunning;
@@ -25,9 +27,10 @@ public class MenuManager {
         this.isRunning = true;
         this.scanner = new Scanner(System.in);
         this.executorService = Executors.newFixedThreadPool(3);
-        this.printer = new MenuPrinter();
-        this.handler = new MenuHandler(MenuState.MAIN, scanner, executorService, printer);
-        this.printer = new MenuPrinter();
+        this.threadManager = new ThreadManager(executorService);
+
+        this.printer = new MenuPrinter(scanner, threadManager);
+        this.handler = new MenuHandler(MenuState.MAIN, scanner, executorService, printer, threadManager);
     }
 
     public void start() {
@@ -61,7 +64,7 @@ public class MenuManager {
 
     private void shutdown() {
         System.out.println("Завершение работы приложения...");
-
+        threadManager.shutdown();
         scanner.close();
         System.out.println("Приложение завершено.");
     }

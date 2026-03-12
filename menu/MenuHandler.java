@@ -1,6 +1,7 @@
 package com.carmagazine.menu;
 
 import com.carmagazine.sort.*;
+import com.carmagazine.thread.ThreadManager;
 
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -11,14 +12,16 @@ public class MenuHandler {
     private Scanner scanner;
     private ExecutorService executorService;
     private MenuPrinter printer;
+    private ThreadManager threadManager;
 
     public MenuHandler(MenuState initialState,
                        Scanner scanner, ExecutorService executorService,
-                       MenuPrinter printer) {
+                       MenuPrinter printer, ThreadManager threadManager) {
         this.currentState = initialState;
         this.scanner = scanner;
         this.executorService = executorService;
         this.printer = printer;
+        this.threadManager = threadManager;
     }
 
     public MenuState getCurrentState() {
@@ -47,7 +50,7 @@ public class MenuHandler {
     }
 
     private boolean handleMainMenuChoice(String choice) {
-        switch (choice) {
+        switch (choice.trim()) { // <-- убираем пробелы через trim()
             case "1":
                 currentState = MenuState.SOURCE;
                 break;
@@ -56,6 +59,10 @@ public class MenuHandler {
                 break;
             case "3":
                 currentState = MenuState.SORT_MENU;
+                break;
+            case "4":
+                // Переключение многопоточности
+                threadManager.toggle();
                 break;
             case "0":
                 return false;
@@ -66,7 +73,7 @@ public class MenuHandler {
     }
 
     private boolean handleSourceMenuChoice(String choice) {
-        switch (choice) {
+        switch (choice.trim()) {
             case "1":
                 currentState = MenuState.FILE_LOAD;
                 return handleFileLoadChoice();
@@ -86,7 +93,7 @@ public class MenuHandler {
     }
 
     private boolean handleSearchChoice(String choice) {
-        switch (choice) {
+        switch (choice.trim()) {
             case "1":
                 currentState = MenuState.SEARCH_COLOR;
                 return handleSearchByColorChoice();
@@ -109,19 +116,22 @@ public class MenuHandler {
     }
 
     private boolean handleSortChoice(String choice) {
-        switch (choice) {
+        switch (choice.trim()) {
             case "1":
-                currentState = MenuState.SEARCH_COLOR;
+                currentState = MenuState.SORT_COLOR;
                 return handleSortByColorChoice();
             case "2":
-                currentState = MenuState.SEARCH_COMPLICATION;
+                currentState = MenuState.SORT_COMPLICATION;
                 return handleSortByComplicationChoice();
             case "3":
-                currentState = MenuState.SEARCH_POWER;
+                currentState = MenuState.SORT_POWER;
                 return handleSortByPowerChoice();
             case "4":
-                currentState = MenuState.SEARCH_YEAR;
+                currentState = MenuState.SORT_YEAR;
                 return handleSortByYearChoice();
+            case "5":
+                currentState = MenuState.SORT_ANOTHER;
+                return handleSortByAnotherChoice();
             case "0":
                 currentState = MenuState.MAIN;
                 break;
@@ -135,7 +145,7 @@ public class MenuHandler {
         searchAction.run();
         System.out.println("Нажмите Enter для возврата в меню...");
         scanner.nextLine();
-        currentState = MenuState.SEARCH;
+        currentState = MenuState.MAIN;
         return true;
     }
 
@@ -185,5 +195,9 @@ public class MenuHandler {
 
     private boolean handleSortByYearChoice() {
         return handleQuestChoice(() -> printer.printSortByMenu(new SortByYear(), "году"));
+    }
+
+    private boolean handleSortByAnotherChoice() {
+        return handleQuestChoice(() -> printer.printSortByMenu(new AdditionSortByYear(), "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах"));
     }
 }

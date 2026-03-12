@@ -15,5 +15,10 @@ public enum MenuState {
     SEARCH_POWER,            // Поиск по мощности
     SEARCH_YEAR,             // Поиск по году
     SEARCH_COLOR,            // Поиск по цвету
-    SEARCH_ANOTHER,            // Поиск по цвету
+
+    SORT_ANOTHER,            // Кастомная сортировка
+    SORT_YEAR,               // Сортировка по году
+    SORT_COLOR,              // Сортировка по цвету
+    SORT_COMPLICATION,       // Сортировка по комплектации
+    SORT_POWER,            // Сортировка по мощности
 }
