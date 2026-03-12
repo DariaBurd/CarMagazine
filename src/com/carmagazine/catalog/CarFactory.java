@@ -1,4 +1,5 @@
-package catalog;
+package com.carmagazine.catalog;
+
 import java.util.*;
 import java.io.*;
 import java.util.stream.Collectors;

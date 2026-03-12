@@ -1,4 +1,4 @@
-package catalog;
+package com.carmagazine.catalog;
 
 public class InputValidator {
 
