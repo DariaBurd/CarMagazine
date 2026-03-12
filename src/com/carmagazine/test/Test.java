@@ -14,7 +14,7 @@ public class Test {
         runAll(cars);
     }
 
-    private static List<Automobile> createTestCars() {
+    public static List<Automobile> createTestCars() {
         List<Automobile> testList = new ArrayList<>();
 
         testList.add(new Automobile.Builder().setPower(180).setYear(2001).setConfiguration("Comfort").setColor("Синий").build());
@@ -38,13 +38,13 @@ public class Test {
         return testList;
     }
 
-    private static void showOriginal(List<Automobile> cars) {
+    public static void showOriginal(List<Automobile> cars) {
         System.out.println("Исходный список авто:");
         cars.forEach(System.out::println);
         System.out.println("__________________");
     }
 
-    private static void runAll(List<Automobile> cars) {
+    public static void runAll(List<Automobile> cars) {
         AutomobileSort sorter = new AutomobileSort();
 
         runSort(sorter, cars, new SortByPower(),       "Сортировка по мощности");
@@ -54,9 +54,9 @@ public class Test {
         runSort(sorter, cars, new AdditionSortByYear(), "Доп. задание: чётные годы по возрастанию");
     }
 
-    private static void runSort(AutomobileSort sorter, List<Automobile> cars, SortStrategy strategy, String title) {
+    public static void runSort(AutomobileSort sorter, List<Automobile> cars, SortStrategy strategy, String title) {
         sorter.setStrategy(strategy);
         sorter.print(cars, title + ":");
-        System.out.println(); // пустая строка между блоками для красоты
+        System.out.println();
     }
 }
