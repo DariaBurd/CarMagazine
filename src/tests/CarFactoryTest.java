@@ -1,4 +1,4 @@
-package tests;
+package com.carmagazine.tests;
 import catalog.CarFactory;
 import org.junit.jupiter.api.*;
 import java.io.*;
