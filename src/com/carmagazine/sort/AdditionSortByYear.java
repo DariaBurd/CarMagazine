@@ -1,5 +1,7 @@
 package com.carmagazine.sort;
 
+import com.carmagazine.automobile.Automobile;
+
 import java.util.ArrayList;
 import java.util.List;
 

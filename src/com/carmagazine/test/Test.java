@@ -1,5 +1,10 @@
 package com.carmagazine.test;
-package com.carmagazine.sort.AutomobileSort;
+
+import com.carmagazine.automobile.Automobile;
+import com.carmagazine.sort.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
@@ -42,7 +47,6 @@ public class Test {
         sorter.setStrategy(new SortByColor());
         sorter.print(testList, "Сортировка по цвету:");
 
-        sorter.setStrategy(new AdditionSortByColor());
+        sorter.setStrategy(new AdditionSortByYear());
         sorter.print(testList, "доп задание: сортировка чётные годы сортируются по возрастанию, нечётные остаются на местах");
-
     }}
