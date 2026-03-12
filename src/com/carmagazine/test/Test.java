@@ -58,5 +58,6 @@ public class Test {
         sorter.setStrategy(strategy);
         sorter.print(cars, title + ":");
         System.out.println();
+
     }
 }
