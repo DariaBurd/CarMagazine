@@ -183,8 +183,8 @@ public class CarFactory {
         Stream.generate(() -> {
                     try {
                         return new Automobile.Builder()
-                                .setPower(50 + random.nextInt(451))      // 50-500 л.с.
-                                .setYear(2000 + random.nextInt(27))      // 2000-2026
+                                .setPower(50 + random.nextInt(451))
+                                .setYear(1886 + random.nextInt(141))      
                                 .setConfiguration(CONFIGURATIONS[random.nextInt(CONFIGURATIONS.length)])
                                 .setColor(COLORS[random.nextInt(COLORS.length)])
                                 .build();
