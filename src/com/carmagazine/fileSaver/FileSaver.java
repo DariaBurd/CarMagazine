@@ -1,0 +1,123 @@
+package com.carmagazine.fileSaver;
+
+import com.carmagazine.automobile.Automobile;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+/**
+ * @author KAA
+ */
+// Класс для сохранения результатов работы программы в файл
+public class FileSaver {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
+    public static void saveSortedCars(String filePath, List<Automobile> sortedCars, String sortType) {
+        try(FileWriter fileWriter = new FileWriter(filePath, true); // Режим добавления (append) = true
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
+
+            printWriter.println("Дата сохранения сортировки: " + LocalDateTime.now().format(FORMATTER));
+            printWriter.println("РЕЗУЛЬТАТ СОРТИРОВКИ");
+            printWriter.println("Сортировка по " + sortType);
+            printWriter.println();
+
+            if (sortedCars.isEmpty()) {
+                printWriter.println("Коллекция пуста.");
+            } else {
+                for (int i = 0; i < sortedCars.size(); i++) {
+                    printWriter.println((i + 1) + ". " + sortedCars.get(i));
+                }
+            }
+            printWriter.println();
+            printWriter.println("Всего записей: " + sortedCars.size());
+            printWriter.println();
+            printWriter.println();
+
+            System.out.println("Отсортированная коллекция сохранена в файл: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Ошибка при сохранении отсортированной коллекции!");
+            System.out.println("Причина: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveSearchResults(String filePath, List<Automobile> searchResults, String searchType, String query) {
+        try(FileWriter fileWriter = new FileWriter(filePath, true); // Режим добавления (append) = true
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
+
+            printWriter.println("Дата сохранения поиска: " + LocalDateTime.now().format(FORMATTER));
+            printWriter.println("РЕЗУЛЬТАТЫ ПОИСКА");
+            printWriter.println(searchType);
+            printWriter.println("Запрос: \"" + query + "\"");
+            printWriter.println();
+
+            if (searchResults.isEmpty()) {
+                printWriter.println("Ничего не найдено.");
+            } else {
+                for (int i = 0; i < searchResults.size(); i++) {
+                    printWriter.println((i + 1) + ". " + searchResults.get(i));
+                }
+            }
+            printWriter.println();
+            printWriter.println("Найдено: " + searchResults.size());
+            printWriter.println();
+            printWriter.println();
+
+            System.out.println("Результаты поиска сохранены в файл: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Ошибка при сохранении результатов поиска!");
+            System.out.println("Причина: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveCurrentCars(String filePath, List<Automobile> cars) {
+        try(FileWriter fileWriter = new FileWriter(filePath, true); // Режим добавления (append) = true
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
+
+            printWriter.println("Дата сохранения текущей коллекции: " + LocalDateTime.now().format(FORMATTER));
+            printWriter.println("ТЕКУЩАЯ КОЛЛЕКЦИЯ АВТОМОБИЛЕЙ");
+            printWriter.println();
+
+            if (cars.isEmpty()) {
+                printWriter.println("Коллекция пуста.");
+            } else {
+                for (int i = 0; i < cars.size(); i++) {
+                    printWriter.println((i + 1) + ". " + cars.get(i));
+                }
+            }
+            printWriter.println();
+            printWriter.println("Всего записей: " + cars.size());
+            printWriter.println();
+            printWriter.println();
+
+            System.out.println("Коллекция автомобилей сохранена в файл: " + filePath);
+        } catch (IOException e) {
+            System.out.println("Ошибка при сохранении коллекции автомобилей!");
+            System.out.println("Причина: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isValidFilePath(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            System.out.println("Ошибка: путь не может быть пустым!");
+            return false;
+        }
+
+        if (!filePath.toLowerCase().endsWith(".txt")) {
+            System.out.println("Ошибка: файл должен быть с расширением .txt!");
+            return false;
+        }
+
+        return true;
+    }
+}
