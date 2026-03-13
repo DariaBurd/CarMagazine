@@ -184,7 +184,7 @@ public class CarFactory {
                     try {
                         return new Automobile.Builder()
                                 .setPower(50 + random.nextInt(451))
-                                .setYear(1886 + random.nextInt(141))      
+                                .setYear(1886 + random.nextInt(141))
                                 .setConfiguration(CONFIGURATIONS[random.nextInt(CONFIGURATIONS.length)])
                                 .setColor(COLORS[random.nextInt(COLORS.length)])
                                 .build();
