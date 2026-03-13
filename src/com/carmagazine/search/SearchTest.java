@@ -66,7 +66,10 @@ public class SearchTest {
                     .setColor("Желтый")
                     .build());
 
-            System.out.println("Подготовлено 5 тестовых автомобилей.");
+            System.out.println("Подготовлено 5 тестовых автомобилей:");
+            for (int i = 0; i < testCars.size(); i++) {
+                System.out.println((i + 1) + ". " + testCars.get(i));
+            }
             System.out.println();
         } catch (Exception e) {
             System.out.println("Ошибка при подготовке тестовых автомобилей!");
