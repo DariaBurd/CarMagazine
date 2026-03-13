@@ -13,7 +13,7 @@ public class AutomobileTest {
         System.out.println("\nВсе тесты завершены.");
     }
 
-    private static void testValidCar() {
+    public static void testValidCar() {
         try {
             Automobile car = new Automobile.Builder()
                     .setPower(150)
@@ -30,7 +30,7 @@ public class AutomobileTest {
         }
     }
 
-    private static void testInvalidPower() {
+    public static void testInvalidPower() {
         try {
             new Automobile.Builder()
                     .setPower(-100);
@@ -42,7 +42,7 @@ public class AutomobileTest {
         }
     }
 
-    private static void testInvalidYear() {
+    public static void testInvalidYear() {
         try {
             new Automobile.Builder()
                     .setYear(1500);
@@ -54,7 +54,7 @@ public class AutomobileTest {
         }
     }
 
-    private static void testEmptyConfiguration() {
+    public static void testEmptyConfiguration() {
         try {
             new Automobile.Builder()
                     .setConfiguration("");
@@ -66,7 +66,7 @@ public class AutomobileTest {
         }
     }
 
-    private static void testMissingField() {
+    public static void testMissingField() {
         try {
             new Automobile.Builder()
                     .setPower(100)
