@@ -1,6 +1,8 @@
 package com.carmagazine.catalog;
 import java.util.*;
 import java.util.stream.Stream;
+import com.carmagazine.automobile.Automobile;
+import com.carmagazine.sort.SortStrategy;
 
 /**
  * Кастомная коллекция для автомобилей.
