@@ -3,7 +3,7 @@
 **Версия:** 1.0.2  
 **Язык:** Java 11+  
 **Лицензия:** WTFPL Version 2  
-**Авторы:** fnJey, KAA, DariaBurd  
+**Авторы:** DariaBurd, fnJey, Nastya211296 , ayfSan, alxmkhl
 **Репозиторий:** [GitHub](https://github.com/DariaBurd/CarMagazine/)
 
 Консольное приложение для управления коллекцией автомобилей с поддержкой поиска, сортировки, многопоточности и тестирования.
